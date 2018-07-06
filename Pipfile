@@ -1,0 +1,27 @@
+[[source]] 
+url = "https://pypi.org/simple" 
+verify_ssl = true 
+name = "pypi" 
+
+[packages] 
+pytz = "*" 
+"bs4" = "*" 
+pymongo = "*" 
+feedparser = "*" 
+spacy = "*" 
+jupyterlab = "*" 
+gensim = "*" 
+pexpect = "*" 
+pyemd = "*"
+requests = "*"
+tqdm = "*"
+redis = "*"
+pandas = "*"
+
+[dev-packages] 
+pylint = "*" 
+"autopep8" = "*" 
+yapf = "*" 
+
+[requires] 
+python_version = "3.6"
