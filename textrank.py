@@ -1,32 +1,32 @@
-import spacy
 from pprint import pprint
-from weighted_page_rank import WeightedPageRank
 
-text = '''Rice Pudding - Poem by Alan Alexander Milne
-What is the matter with Mary Jane?
-She's crying with all her might and main,
-And she won't eat her dinner - rice pudding again -
-What is the matter with Mary Jane?
-What is the matter with Mary Jane?
-I've promised her dolls and a daisy-chain,
-And a book about animals - all in vain -
-What is the matter with Mary Jane?
-What is the matter with Mary Jane?
-She's perfectly well, and she hasn't a pain;
-But, look at her, now she's beginning again! -
-What is the matter with Mary Jane?
-What is the matter with Mary Jane?
-I've promised her sweets and a ride in the train,
-And I've begged her to stop for a bit and explain -
-What is the matter with Mary Jane?
-What is the matter with Mary Jane?
-She's perfectly well and she hasn't a pain,
-And it's lovely rice pudding for dinner again!
-What is the matter with Mary Jane?'''
+from weighted_page_rank import WeightedPageRank, build_weights_matrix, extract_sentences, extract_words, \
+    spacy_similarity
 
-nlp = spacy.load('de')
-doc = nlp(text)
-sentences = [sent.text for sent in doc.sents]
-pr = WeightedPageRank()
+text = '''Automatic summarization is the process of reducing a text document with a
+computer program in order to create a summary that retains the most important points
+of the original document. As the problem of information overload has grown, and as
+the quantity of data has increased, so has interest in automatic summarization.
+Technologies that can make a coherent summary take into account variables such as
+length, writing style and syntax. An example of the use of summarization technology
+is search engines such as Google. Document summarization is another.'''
 
-pprint(sentences)
+print('''
+####################################
+# Summary                          #
+####################################
+''')
+sentences = extract_sentences(text)
+weights = build_weights_matrix(tokens=sentences, comparator=spacy_similarity, normalize=True)
+pr = WeightedPageRank(weights=weights, iterations=len(sentences))
+pprint(pr.sort_by_ranking(sentences))
+
+print('''
+####################################
+# Keywords                         #
+####################################
+''')
+words = extract_words(text)
+weights = build_weights_matrix(tokens=words, comparator=spacy_similarity, normalize=True)
+pr = WeightedPageRank(weights=weights, iterations=4)
+pprint(pr.sort_by_ranking(words))
