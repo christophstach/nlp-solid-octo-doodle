@@ -62,7 +62,7 @@ def extract_words(text: str, remove_stopwords: bool = True) -> List[str]:
     words = [token.text.lower() for token in doc]
 
     words = list(filter(lambda word: not nlp.vocab[word].is_stop, words)) if remove_stopwords else words
-    words = list(filter(lambda word: word not in ['.', '\n', ','], words))
+    words = list(filter(lambda word: word not in ['.', '\n', ',', '?', '!', ';'], words))
     return words
 
 
