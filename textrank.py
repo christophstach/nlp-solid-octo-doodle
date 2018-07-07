@@ -1,6 +1,7 @@
 from pprint import pprint
 
-from weighted_page_rank import WeightedPageRank, build_weights_matrix, extract_sentences, extract_words, \
+from weighted_page_rank import WeightedPageRank, build_weights_matrix, \
+    extract_sentences, extract_words, extract_noun_chunks, \
     spacy_similarity
 
 text = '''Automatic summarization is the process of reducing a text document with a
@@ -23,10 +24,20 @@ pprint(pr.sort_by_ranking(sentences))
 
 print('''
 ####################################
-# Keywords                         #
+# Keywords (words)                 #
 ####################################
 ''')
 words = extract_words(text)
 weights = build_weights_matrix(tokens=words, comparator=spacy_similarity, normalize=True)
-pr = WeightedPageRank(weights=weights, iterations=4)
+pr = WeightedPageRank(weights=weights, iterations=len(words))
 pprint(pr.sort_by_ranking(words))
+
+print('''
+####################################
+# Keywords (noun chunks)           #
+####################################
+''')
+noun_chunks = extract_noun_chunks(text)
+weights = build_weights_matrix(tokens=noun_chunks, comparator=spacy_similarity, normalize=True)
+pr = WeightedPageRank(weights=weights, iterations=len(noun_chunks))
+pprint(pr.sort_by_ranking(noun_chunks))
