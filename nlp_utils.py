@@ -47,7 +47,7 @@ def extract_sentences(text: str) -> List[str]:
     return [sent.text for sent in doc.sents]
 
 
-def extract_words(text: str, remove_stopwords: bool = True) -> List[str]:
+def extract_unique_words(text: str, remove_stopwords: bool = True) -> List[str]:
     """
     Extracts all words from the text
 
@@ -60,19 +60,22 @@ def extract_words(text: str, remove_stopwords: bool = True) -> List[str]:
     words = [token.text for token in doc]
     words = list(filter(lambda word: not nlp.vocab[word].is_stop, words)) if remove_stopwords else words
     words = list(filter(lambda word: word not in ['.', '\n', ',', '?', '!', ';'], words))
-    return words
+    return list(set(words))
 
 
-def extract_noun_chunks(text: str) -> List[str]:
+def extract_noun_chunks(text: str, remove_stopwords: bool = True) -> List[str]:
     """
     Extract all noun chunks from a text
 
     :param text: The text to split into noun chunks
+    :param remove_stopwords: Should top words be removed
     :return: A list of noun chunks
     """
     doc = nlp(text)
+    chunks = [chunk.text for chunk in doc.noun_chunks]
+    chunks = list(filter(lambda chunk: not nlp.vocab[chunk].is_stop, chunks)) if remove_stopwords else chunks
 
-    return [chunk.text for chunk in doc.noun_chunks]
+    return list(set(chunks))
 
 
 def spacy_similarity(token1: str, token2: str) -> float:

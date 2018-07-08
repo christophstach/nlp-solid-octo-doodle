@@ -42,3 +42,20 @@ class WeightedPageRank:
         assert len(array) == len(self.rankings[-1])
 
         return [value for _, value in sorted(zip(self.rankings[-1], array), reverse=True)]
+
+    def get_top_entries(self, array: List[any], count: int = 4, keep_original_occurrence: bool = True):
+        """
+        Returns the top entries of a given array based on the rankins
+
+        :param array: The array
+        :param count: The number of entries to return
+        :param keep_original_occurrence: Should the original order of the entries in the text be preserved
+        :return: The top entries based on the ranking
+        """
+        sorted_array = self.sort_by_ranking(array)
+        sorted_array = sorted_array[0:count]
+
+        if keep_original_occurrence:
+            sorted_array = [value for _, value in sorted(zip(array, sorted_array), reverse=True)]
+
+        return sorted_array
