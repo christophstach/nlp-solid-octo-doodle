@@ -1,8 +1,7 @@
 from pprint import pprint
 
-from weighted_page_rank import WeightedPageRank, build_weights_matrix, \
-    extract_sentences, extract_words, extract_noun_chunks, \
-    spacy_similarity
+from nlp_utils import build_weights_matrix, extract_sentences, extract_words, extract_noun_chunks, spacy_similarity
+from weighted_page_rank import WeightedPageRank
 
 text = '''Automatic summarization is the process of reducing a text document with a
 computer program in order to create a summary that retains the most important points
