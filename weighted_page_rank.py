@@ -9,7 +9,6 @@ class WeightedPageRank:
         Constructs the weighted pagerank.
 
         :param weights: The weights matrix between the nodes
-        :param iterations: The number of iterations to use to loop over the dataset
         """
         self.weights = np.array(weights)
         self.epsilon = 1.0e-20
