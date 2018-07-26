@@ -1,10 +1,10 @@
 from typing import List
-
+import time
 import numpy as np
 
 
 class WeightedPageRank:
-    def __init__(self, weights: List[List[float]], iterations: int):
+    def __init__(self, weights: List[List[float]]):
         """
         Constructs the weighted pagerank.
 
@@ -12,14 +12,19 @@ class WeightedPageRank:
         :param iterations: The number of iterations to use to loop over the dataset
         """
         self.weights = np.array(weights)
-        self.iterations = iterations
+        self.epsilon = 1.0e-20
         self.rankings = np.full(
             (1, self.weights.shape[0]),
             fill_value=1 / self.weights.shape[0]
         )
-
-        for i in range(iterations - 1):
+        self.rankingLearn = np.zeros_like(self.rankings)
+        difference = 1
+        while difference > self.epsilon:
             self.iterate()
+            difference = np.max(
+                np.abs(np.subtract(self.rankings[-1], self.rankingLearn[-1]))
+            )
+            self.rankingLearn = self.rankings
 
     def iterate(self) -> None:
         """
@@ -56,6 +61,7 @@ class WeightedPageRank:
         sorted_array = sorted_array[0:count]
 
         if keep_original_occurrence:
-            sorted_array = [value for _, value in sorted(zip(array, sorted_array), reverse=True)]
+            sorted_array = [value for _, value in sorted(
+                zip(array, sorted_array), reverse=True)]
 
         return sorted_array

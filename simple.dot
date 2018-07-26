@@ -1,0 +1,5 @@
+strict graph "" {
+	Alice -- Emma;
+	Alice -- John;
+	Emma -- John;
+}

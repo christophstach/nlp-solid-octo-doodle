@@ -17,6 +17,9 @@ requests = "*"
 tqdm = "*"
 redis = "*"
 pandas = "*"
+pygraphviz = "*"
+nxpd = "*"
+networkx = "*"
 
 [dev-packages] 
 pylint = "*" 
